@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blackhole</title>
+    <style>
+        body {
+            background-color: black;
+            color: lime;
+            font-family: monospace;
+            text-align: center;
+            padding: 50px;
+        }
+        a.trap {
+            color: red;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to the Void</h1>
+    <p>There's nothing here for you...</p>
+    <a href="/trap" class="trap" onclick="redirect()">Click Me (If You Dare)</a>
+    
+    <script>
+        function redirect() {
+            window.location.href = "/blackhole";
+        }
+
+        // Optionally log visitor details
+        fetch("/log", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ userAgent: navigator.userAgent, url: window.location.href })
+        }).catch(console.error);
+    </script>
+</body>
+</html>
