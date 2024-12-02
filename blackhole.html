@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mainframe Terminal</title>
+    <style>
+        /* General Styles */
+        body {
+            background-color: black; /* Black background for terminal look */
+            color: #00ff00; /* Bright green text */
+            font-family: 'Courier New', Courier, monospace; /* Monospace font */
+            font-size: 1.2rem; /* Slightly smaller text size for compactness */
+            margin: 0;
+            padding: 10px; /* Slight padding for terminal feel */
+            overflow: hidden; /* Prevent scrolling */
+            height: 100vh; /* Full screen */
+        }
+
+        /* Terminal Screen */
+        .terminal {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            white-space: pre-wrap; /* Preserve spacing for ASCII look */
+            line-height: 1.2; /* Reduce vertical spacing */
+        }
+
+        /* ASCII Art */
+        .ascii-border {
+            margin-bottom: 0.5rem; /* Tighter margin below border */
+            text-align: left; /* Ensure ASCII art is aligned left */
+        }
+
+        .ascii-border p {
+            margin: 0; /* No margin around ASCII art lines */
+        }
+
+        /* Text Output */
+        p {
+            margin: 0; /* Remove default margins from all paragraphs */
+        }
+
+        .output {
+            margin-bottom: 0.5rem; /* Consistent spacing between outputs */
+        }
+
+        /* Prompt and Blinking Cursor */
+        .prompt {
+            visibility: hidden; /* Hide the prompt initially */
+            display: flex;
+            align-items: center;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 10px;
+            height: 1.2rem;
+            background-color: #00ff00;
+            margin-left: 5px;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            50%, 100% { opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="terminal">
+        <!-- ASCII Border -->
+        <div class="ascii-border">
+            <p>****************************************</p>
+            <p>***    WELCOME TO THE PRD SERVER     ***</p>
+            <p>****************************************</p>
+        </div>
+
+        <!-- Dynamic Text Output -->
+        <div class="dynamic-output"></div>
+
+        <!-- Prompt and Blinking Cursor (Initially Hidden) -->
+        <div class="prompt">
+            <span>PASSWORD : </span>
+            <span class="cursor"></span>
+        </div>
+    </div>
+
+    <script>
+        // Array of text lines to be typed out
+        const outputText = [
+            "Initializing system...",
+            "Loading programs...",
+            "Initializing memory blocks...",
+            "Connecting to backend resources...",
+            "System online.",
+            "Welcome to the main PRD environment.",
+            "Any unauthorizd access will be reported!",
+            "USER : root"
+        ];
+
+        // Select the dynamic output container and the prompt
+        const dynamicOutput = document.querySelector(".dynamic-output");
+        const prompt = document.querySelector(".prompt");
+
+        function typeLine(text, callback) {
+            // Create a new paragraph for each line
+            const line = document.createElement("p");
+            line.className = "output";
+
+            // Insert the new line into the dynamic output container
+            dynamicOutput.appendChild(line);
+
+            let i = 0;
+            const interval = setInterval(() => {
+                // Type one character at a time
+                line.textContent += text[i];
+                i++;
+                if (i === text.length) {
+                    clearInterval(interval);
+                    if (callback) callback(); // Trigger the next line
+                }
+            }, 50); // Typing speed in milliseconds
+        }
+
+        function typeAllLines(lines, index = 0) {
+            if (index < lines.length) {
+                typeLine(lines[index], () => typeAllLines(lines, index + 1));
+            } else {
+                // When all lines are typed, show the prompt
+                prompt.style.visibility = "visible";
+            }
+        }
+
+        // Start typing lines sequentially on page load
+        window.onload = () => {
+            typeAllLines(outputText);
+        };
+    </script>
+</body>
+</html>

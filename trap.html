@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trap</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            overflow: hidden;
+        }
+        .message {
+            margin-top: 20%;
+            font-size: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="message">You're falling into the black hole...</div>
+    <script>
+        function startEffect() {
+            const body = document.body;
+            body.style.transition = "all 3s ease";
+            body.style.transform = "scale(0.1)";
+            body.style.opacity = "0";
+            setTimeout(() => {
+                window.location.href = "/blackhole.html"; // Change to your desired redirect URL.
+            }, 3000);
+        }
+
+        // Start the effect when the page loads
+        window.onload = startEffect;
+    </script>
+</body>
+</html>
